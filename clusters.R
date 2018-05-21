@@ -20,15 +20,15 @@ labels <- data[, c("class")]
 data <- data[, -which(names(data) %in% c("class"))]
 data <- data.Normalization(data, type="n1", normalization="column")
 
+real_col <- rev(rainbow_hcl(clusters_count))[as.numeric(labels)]
+plotDataPairs(real_col)
+
 for(clusters_count in MIN_CLUSTER_COUNT:MAX_CLUSTER_COUNT) {
-  print("")
+  cat("\n\nClusters count", clusters_count, "\n")
   clusters <- kmeans(data, centers=clusters_count)
   
   cluster_col <- rev(rainbow_hcl(clusters_count))[as.numeric(clusters$cluster)]
-  real_col <- rev(rainbow_hcl(clusters_count))[as.numeric(labels)]
-  
   plotDataPairs(cluster_col)
-  plotDataPairs(real_col)
   
   print(intCriteria(as.matrix(sapply(data, as.numeric)), clusters$cluster, c("Dunn", "Davies_Bouldin", "Silhouette")))
   print(clusterPurity(clusters$cluster, labels))
