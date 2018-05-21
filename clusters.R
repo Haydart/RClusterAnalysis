@@ -9,6 +9,7 @@ ClusterPurity <- function(clusters, classes) {
 }
 
 data <- read.csv("datasets/glass.csv")
+data <- data.Normalization(data, type="n2", normalization="column")
 data
 # Kmeans cluster analysis
 clusters <- kmeans(data[, 1:10], centers=6)
