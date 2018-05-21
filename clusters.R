@@ -9,14 +9,14 @@ ClusterPurity <- function(clusters, classes) {
 }
 
 data <- read.csv("datasets/glass.csv")
-data <- data.Normalization(data, type="n2", normalization="column")
+data <- data.Normalization(data, type="n1", normalization="column")
 data
 # Kmeans cluster analysis
-clusters <- kmeans(data[, 1:10], centers=6)
+clusters <- kmeans(data[, -which(names(data) %in% c("class"))], centers=6)
 #clusters = pam(data[, -1], centers=5)
 
 plot(data[, c(4, 5)], col = clusters$cluster + 1, lty = "solid", pch = 19, cex=0)
-text(data[, c(4, 5)], labels=as.numeric(data[, 9]), cex=1, col=clusters$cluster + 1)
+text(data[, c(4, 5)], labels=as.numeric(data[, c("class")]), cex=1, col=clusters$cluster + 1)
 
 intCriteria(as.matrix(sapply(data[, 1:7], as.numeric)), clusters$cluster, c("Dunn", "Davies_Bouldin", "Silhouette"))
 
