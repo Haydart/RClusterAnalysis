@@ -11,15 +11,15 @@ ClusterPurity <- function(clusters, classes) {
 data <- read.csv("datasets/glass.csv")
 data
 # Kmeans cluster analysis
-kmeans <- kmeans(data[, 1:10], centers=6)
-#kmeans = pam(data[, -1], centers=5)
+clusters <- kmeans(data[, 1:10], centers=6)
+#clusters = pam(data[, -1], centers=5)
 
-plot(data[, c(4, 5)], col = kmeans$cluster + 1, lty = "solid", pch = 19, cex=0)
-text(data[, c(4, 5)], labels=as.numeric(data[, 9]), cex=1, col=kmeans$cluster + 1)
+plot(data[, c(4, 5)], col = clusters$cluster + 1, lty = "solid", pch = 19, cex=0)
+text(data[, c(4, 5)], labels=as.numeric(data[, 9]), cex=1, col=clusters$cluster + 1)
 
-intCriteria(as.matrix(sapply(data[, 1:7], as.numeric)), kmeans$cluster, c("Dunn", "Davies_Bouldin", "Silhouette"))
+intCriteria(as.matrix(sapply(data[, 1:7], as.numeric)), clusters$cluster, c("Dunn", "Davies_Bouldin", "Silhouette"))
 
-ClusterPurity(kmeans$cluster, data[, c("class")])
+ClusterPurity(clusters$cluster, data[, c("class")])
 
 #data <- read.csv("seeds.data")
 # Kmeans clustre analysis
