@@ -4,26 +4,31 @@ library(clusterSim)
 library(clusterCrit)
 library(colorspace)
 
+CLUSTER_COUNT = 10
 
 ClusterPurity <- function(clusters, classes) {
   sum(apply(table(classes, clusters), 2, max)) / length(clusters)
 }
 
-data <- read.csv("datasets/glass.csv")
+data <- read.csv("datasets/seeds.csv")
+data
 labels <- data[, c("class")]
 data <- data[, -which(names(data) %in% c("class"))]
 data <- data.Normalization(data, type="n1", normalization="column")
 data
+
 # Kmeans cluster analysis
-clusters <- kmeans(data, centers=5)
+clusters <- kmeans(data, centers=CLUSTER_COUNT)
 #clusters = pam(data[, -1], centers=5)
 
-#plot(data[, c(4, 5)], col = clusters$cluster + 1, lty = "solid", pch = 19, cex=0)
-#text(data[, c(4, 5)], labels=as.numeric(data[, c("class")]), cex=1, col=clusters$cluster + 1)
-
-species_col <- rev(rainbow_hcl(5))[as.numeric(clusters$cluster)]
+species_col <- rev(rainbow_hcl(CLUSTER_COUNT))[as.numeric(clusters$cluster)]
+species_col2 <- rev(rainbow_hcl(CLUSTER_COUNT))[as.numeric(labels)]
 
 pairs(data, col=species_col,
+      lower.panel=NULL,
+      cex.labels=2, pch=19, cex=1.2)
+
+pairs(data, col=species_col2,
       lower.panel=NULL,
       cex.labels=2, pch=19, cex=1.2)
 
